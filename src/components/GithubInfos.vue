@@ -12,17 +12,17 @@
                             </tr>
                         </thead>
                     <tbody>
-                        <tr v-for="info in infos" :key="info.url">
-                            <p> {{info.path  }}</p>
+                        {{ path.join("/") }}
+                        <tr v-for="arquivo in arquivos" :key="arquivo.url">
                             <td>
-                                <v-icon v-if="info.type == 'file'">
+                                <v-icon v-if="arquivo.type == 'file'">
                                     mdi-file
                                 </v-icon>
-                                <v-icon v-else @click="redirect(info)">
+                                <v-icon v-else @click="redirect(arquivo)">
                                     mdi-folder
                                 </v-icon>
-                                {{ info.name }}
-                                <th v-if="info.mostrarPath && info.type != 'file'">
+                                {{ arquivo.name }}
+                                <th v-if="arquivo.mostrarPath && arquivo.type != 'file'">
                                 </th>
                             </td>
                         </tr>
@@ -50,31 +50,36 @@ import {api} from '~api'
     export default {
         props: ['repo'],
         data: () => ({
-            infos: [],
+            arquivos: [],
             loading: false,
-            is_path: false
+            is_path: false,
+            path: []
         }),
         methods: {
-            async listaInfos () {
+            async listaArquivos () {
+                this.path = []
                 this.loading = true
-                const maisInfos = await api.listaInfos(this.repo.owner.login, this.repo.name)
-                this.infos = this.infos.concat(maisInfos.map(info => {
-                    info.mostrarPath = false
-                    return info
+                const maisArquivos = await api.listaArquivos(this.repo.owner.login, this.repo.name)
+                this.arquivos = this.arquivos.concat(maisArquivos.map(arquivo => {
+                    arquivo.mostrarPath = false
+                    return arquivo
                 }))
                 this.loading = false
             },
-            async redirect(info){
-                info.mostrarPath = !info.mostrarPath
-                const maisInfos = await api.listaInfos(this.repo.owner.login, this.repo.name, info.path)
-                this.infos = maisInfos
+            async redirect(arquivo){
+                this.path = []
+                arquivo.mostrarPath = !arquivo.mostrarPath
+                const maisArquivos = await api.listaArquivos(this.repo.owner.login, this.repo.name, arquivo.path)
+                this.path.push(this.repo.owner.login, this.repo.name, arquivo.path)
+                this.arquivos = maisArquivos
+
             }
         },
         watch: {
             repo() {
-                this.infos = []
+                this.arquivos = []
                 if (this.repo){
-                    this.listaInfos()
+                    this.listaArquivos()
                 }
             }
         }
