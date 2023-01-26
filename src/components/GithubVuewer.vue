@@ -1,17 +1,17 @@
 <template>
   <v-container>
       <GithupRepo @reposelected="onRepoSelected"/>
-     <GithubInfos :repo="repo"/>
+     <GithubContents :repo="repo"/>
   </v-container>
   </template>
   
 <script>
-import GithubInfos from './GithubInfos';
+import GithubContents from './GithubContents';
 import GithupRepo from './GithupRepo';
 export default {
     components: {
     GithupRepo,
-    GithubInfos
+    GithubContents
 },
     data: () => ({
         repo: null

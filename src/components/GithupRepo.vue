@@ -51,14 +51,14 @@ import {api} from '~api'
         }),
         methods: {
             // só é executado quando parar de digitar
-            procuraUsuariosGitHub: debouncedecorator(async function () { // não usar arrow function
+            SearchUsers: debouncedecorator(async function () { // não usar arrow function
                 this.userloading = true
                 const data = await api.search_users(this.usersearch)
                 this.userlist = data.items
                 // se não tivesse o nome dos atributos, poderia usar .map()
                 this.userloading = false
             }, 500),
-            async listaRepositorios () {
+            async listRepositorys () {
                 this.repoloading = true
                 this.repolist = await api.lista_repos(this.user)
                 this.repoloading = false
@@ -66,11 +66,11 @@ import {api} from '~api'
         },
         watch: {
             usersearch () {
-                this.procuraUsuariosGitHub()
+                this.SearchUsers()
             },
             user () {
                 if(this.user){
-                    this.listaRepositorios()
+                    this.listRepositorys()
                 }
             },
             repo () {

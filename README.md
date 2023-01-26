@@ -1,5 +1,10 @@
 # github_vuewer
 
+Selecione um usuário do github [https://github.com/], escolha um de seus repositórios listados 
+e veja/navegue por todas as pastas do projeto selecionado!
+
+Link para o site aqui [https://anaclaracoelho.github.io/github_vuewer_repos/]
+
 ## Project setup
 ```
 npm install
@@ -20,5 +25,3 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
